@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { 
   TrendingUp, 
   Calculator, 
@@ -11,92 +11,15 @@ import {
   AlertCircle
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { clsx, type ClassValue } from 'clsx';
-import { twMerge } from 'tailwind-merge';
+import { cn } from '../utils/cn';
+import { formatCurrency, formatCrypto } from '../utils/format';
+import TabButton from '../components/TabButton';
+import Card from '../components/Card';
+import InputField from '../components/InputField';
 
-// --- Utility Functions ---
-function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs));
-}
 
-const formatCurrency = (val: number) => {
-  return new Intl.NumberFormat('en-IN', {
-    style: 'currency',
-    currency: 'INR',
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  }).format(val);
-};
 
-const formatCrypto = (val: number, decimals: number = 7) => {
-  return val.toFixed(decimals);
-};
-
-// --- Components ---
-
-const InputField = ({ 
-  label, 
-  value, 
-  onChange, 
-  type = "number", 
-  placeholder = "0.00", 
-  icon: Icon,
-  step = "any"
-}: { 
-  label: string, 
-  value: string | number, 
-  onChange: (val: string) => void, 
-  type?: string, 
-  placeholder?: string,
-  icon?: any,
-  step?: string
-}) => (
-  <div className="flex flex-col gap-1.5 w-full">
-    <label className="text-sm font-medium text-slate-400 flex items-center gap-2">
-      {Icon && <Icon size={14} className="text-blue-400" />}
-      {label}
-    </label>
-    <div className="relative">
-      <input
-        type={type}
-        step={step}
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        className="w-full bg-slate-900/50 border border-slate-700/50 rounded-xl px-4 py-3 text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all placeholder:text-slate-600"
-        placeholder={placeholder}
-      />
-    </div>
-  </div>
-);
-
-const Card = ({ children, className }: { children: React.ReactNode, className?: string }) => (
-  <div className={cn("bg-slate-900/40 backdrop-blur-xl border border-slate-800/50 rounded-3xl p-6 shadow-2xl", className)}>
-    {children}
-  </div>
-);
-
-const TabButton = ({ active, onClick, icon: Icon, label }: { active: boolean, onClick: () => void, icon: any, label: string }) => (
-  <button
-    onClick={onClick}
-    className={cn(
-      "flex items-center gap-2 px-6 py-3 rounded-2xl transition-all duration-300 relative overflow-hidden group",
-      active ? "text-white" : "text-slate-400 hover:text-slate-200 hover:bg-slate-800/50"
-    )}
-  >
-    {active && (
-      <motion.div
-        layoutId="activeTab"
-        className="absolute inset-0 bg-gradient-to-r from-red-500 to-blue-600"
-        transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-      />
-    )}
-    <Icon size={18} className={cn("relative z-10", active ? "text-white" : "group-hover:scale-110 transition-transform")} />
-    <span className="relative z-10 font-semibold">{label}</span>
-  </button>
-);
-
-// --- Sections ---
-
+// --- sections ---
 const MultipleStrategy = () => {
   const [initial, setInitial] = useState<string>("1000");
   const [oldPrice, setOldPrice] = useState<string>("50");
