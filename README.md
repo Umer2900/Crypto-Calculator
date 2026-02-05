@@ -1,73 +1,41 @@
-# React + TypeScript + Vite
+# Crypto Investment Toolkit
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A Next.js crypto calculator app with strategy, tax, and futures tools.
 
-Currently, two official plugins are available:
+## Tech Stack
+- Next.js 15 (App Router)
+- React 19
+- TypeScript
+- Tailwind CSS v4
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Getting Started
+1. Install dependencies:
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+2. Run the dev server:
+```bash
+npm run dev
 ```
+
+3. Open `http://localhost:3000`
+
+## Scripts
+- `npm run dev` — start Next.js dev server
+- `npm run build` — production build
+- `npm run start` — run the production server
+- `npm run lint` — run Next.js lint
+
+## Project Structure
+- `src/app/layout.tsx` — root layout
+- `src/app/page.tsx` — main page UI
+- `src/app/globals.css` — global styles (Tailwind import)
+- `src/components/` — reusable UI components
+- `src/utils/` — helper utilities
+- `src/types.ts` — shared TypeScript types
+- `public/` — static assets
+
+## Notes
+- The main UI is a client component (`src/app/page.tsx`) to support interactive tabs and inputs.
+- Tailwind CSS is configured via `postcss.config.cjs` with `@tailwindcss/postcss`.
