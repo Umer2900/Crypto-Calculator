@@ -12,7 +12,7 @@ const TabButton = ({ active, onClick, icon: Icon, label }: { active: boolean, on
     {active && (
       <motion.div
         layoutId="activeTab"
-        className="absolute inset-0 bg-gradient-to-r from-red-500 to-blue-600"
+        className="absolute inset-0 bg-linear-to-r from-red-500 to-blue-600"
         transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
       />
     )}
