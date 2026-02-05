@@ -1,29 +1,24 @@
 import { useState, useMemo } from 'react';
-import { 
-  TrendingUp, 
-  Calculator, 
-  Zap, 
-  ArrowUpRight, 
-  RefreshCcw, 
-  Info,
-  DollarSign,
-  Percent,
-  AlertCircle
-} from 'lucide-react';
+import { TrendingUp, Calculator, Zap, ArrowUpRight, RefreshCcw, Info, DollarSign, Percent, AlertCircle} from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { cn } from '../utils/cn';
-import { formatCurrency, formatCrypto } from '../utils/format';
-import TabButton from '../components/TabButton';
-import Card from '../components/Card';
-import InputField from '../components/InputField';
-
+import { cn } from './utils/cn';
+import { formatCurrency, formatCrypto } from './utils/format';
+import TabButton from './components/TabButton';
+import Card from './components/Card';
+import InputField from './components/InputField';
+import type { ITaxState, IFuturesState, IStrategyState} from './types';
 
 
 // --- sections ---
-const MultipleStrategy = () => {
-  const [initial, setInitial] = useState<string>("1000");
-  const [oldPrice, setOldPrice] = useState<string>("50");
-  const [currentPrice, setCurrentPrice] = useState<string>("40");
+const MultipleStrategy = ({state, setState}:{ state: IStrategyState; setState: any }) => {
+  // const [initial, setInitial] = useState<string>("1000");
+  // const [oldPrice, setOldPrice] = useState<string>("50");
+  // const [currentPrice, setCurrentPrice] = useState<string>("40");
+
+  const { initial, oldPrice, currentPrice } = state;
+
+  const set = (key: string, value: string) =>
+    setState((prev: any) => ({ ...prev, [key]: value }));
 
   const results = useMemo(() => {
     const I = parseFloat(initial);
@@ -67,9 +62,12 @@ const MultipleStrategy = () => {
         <Card>
           <h3 className="text-xl font-bold bg-gradient-to-r from-red-400 to-blue-500 bg-clip-text text-transparent mb-6">Investment Parameters</h3>
           <div className="space-y-4">
-            <InputField label="Initial Investment (₹)" value={initial} onChange={setInitial} icon={DollarSign} />
+            {/* <InputField label="Initial Investment (₹)" value={initial} onChange={setInitial} icon={DollarSign} />
             <InputField label="Old Buy Price (₹)" value={oldPrice} onChange={setOldPrice} icon={TrendingUp} />
-            <InputField label="Current Price (₹)" value={currentPrice} onChange={setCurrentPrice} icon={Zap} />
+            <InputField label="Current Price (₹)" value={currentPrice} onChange={setCurrentPrice} icon={Zap} /> */}
+            <InputField label="Initial Investment (₹)" value={initial} onChange={(v)=>set("initial", v)} icon={DollarSign} />
+            <InputField label="Old Buy Price (₹)" value={oldPrice} onChange={(v)=>set("oldPrice", v)} icon={TrendingUp} />
+            <InputField label="Current Price (₹)" value={currentPrice} onChange={(v)=>set("currentPrice", v)} icon={Zap} />
           </div>
         </Card>
         
@@ -122,11 +120,16 @@ const MultipleStrategy = () => {
   );
 };
 
-const TaxCalculator = () => {
-  const [initial, setInitial] = useState<string>("10000");
-  const [buyPrice, setBuyPrice] = useState<string>("100");
-  const [currentPrice, setCurrentPrice] = useState<string>("150");
-  const [targetProfit, setTargetProfit] = useState<string>("5000");
+const TaxCalculator = ({ state, setState }: { state: ITaxState; setState: any }) => {
+  // const [initial, setInitial] = useState<string>("10000");
+  // const [buyPrice, setBuyPrice] = useState<string>("100");
+  // const [currentPrice, setCurrentPrice] = useState<string>("150");
+  // const [targetProfit, setTargetProfit] = useState<string>("5000");
+  
+  const { initial, buyPrice, currentPrice, targetProfit } = state;
+  
+  const set = (key: string, value: string) =>
+    setState((prev: any) => ({ ...prev, [key]: value }));
 
   const data = useMemo(() => {
     const I = parseFloat(initial);
@@ -173,10 +176,10 @@ const TaxCalculator = () => {
       <Card>
         <h3 className="text-xl font-bold bg-gradient-to-r from-red-400 to-blue-500 bg-clip-text text-transparent mb-6">Tax & Profit Inputs</h3>
         <div className="grid sm:grid-cols-2 gap-4">
-          <InputField label="Investment (₹)" value={initial} onChange={setInitial} icon={DollarSign} />
-          <InputField label="Buy Price (₹)" value={buyPrice} onChange={setBuyPrice} icon={TrendingUp} />
-          <InputField label="Current Price (₹)" value={currentPrice} onChange={setCurrentPrice} icon={Zap} />
-          <InputField label="Target Profit (₹)" value={targetProfit} onChange={setTargetProfit} icon={ArrowUpRight} />
+          <InputField label="Investment (₹)" value={initial} onChange={(v) => set("initial", v)} icon={DollarSign} />
+          <InputField label="Buy Price (₹)" value={buyPrice} onChange={(v) => set("buyPrice", v)} icon={TrendingUp} />
+          <InputField label="Current Price (₹)" value={currentPrice} onChange={(v) => set("currentPrice", v)} icon={Zap} />
+          <InputField label="Target Profit (₹)" value={targetProfit} onChange={(v) => set("targetProfit", v)} icon={ArrowUpRight} />
         </div>
         
         <div className="mt-8 p-4 rounded-2xl bg-slate-800/30 border border-slate-700/50">
@@ -249,11 +252,16 @@ const TaxCalculator = () => {
   );
 };
 
-const FuturesCalculator = () => {
-  const [initial, setInitial] = useState<string>("1000");
-  const [price, setPrice] = useState<string>("50000");
-  const [leverage, setLeverage] = useState<string>("10");
-  const [position, setPosition] = useState<'long' | 'short'>('long');
+const FuturesCalculator = ({ state, setState }: { state: IFuturesState; setState: any }) => {
+  // const [initial, setInitial] = useState<string>("1000");
+  // const [price, setPrice] = useState<string>("50000");
+  // const [leverage, setLeverage] = useState<string>("10");
+  // const [position, setPosition] = useState<'long' | 'short'>('long');
+
+  const { initial, price, leverage, position } = state;
+
+  const set = (key: string, value: string) =>
+    setState((prev: any) => ({ ...prev, [key]: value }));
 
   const targets = [2.5, 5, 10, 25, 50, 100];
 
@@ -300,21 +308,22 @@ const FuturesCalculator = () => {
           <div className="space-y-4">
             <div className="flex bg-slate-900 p-1 rounded-xl mb-4">
               <button 
-                onClick={() => setPosition('long')}
+                // onClick={() => setPosition('long')}
+                onClick={() => set("position", 'long')}
                 className={cn("flex-1 py-2 rounded-lg text-sm font-bold transition-all", position === 'long' ? "bg-emerald-500/20 text-emerald-400" : "text-slate-500 hover:text-slate-300")}
               >
                 Long
               </button>
               <button 
-                onClick={() => setPosition('short')}
+                onClick={() => set("position", 'short')}
                 className={cn("flex-1 py-2 rounded-lg text-sm font-bold transition-all", position === 'short' ? "bg-red-500/20 text-red-400" : "text-slate-500 hover:text-slate-300")}
               >
                 Short
               </button>
             </div>
-            <InputField label="Margin (₹)" value={initial} onChange={setInitial} icon={DollarSign} />
-            <InputField label="Entry Price (₹)" value={price} onChange={setPrice} icon={TrendingUp} />
-            <InputField label="Leverage (x)" value={leverage} onChange={setLeverage} icon={Percent} />
+            <InputField label="Margin (₹)" value={initial} onChange={(v) => set("initial", v)} icon={DollarSign} />
+            <InputField label="Entry Price (₹)" value={price} onChange={(v) => set("price", v)} icon={TrendingUp} />
+            <InputField label="Leverage (x)" value={leverage} onChange={(v) => set("leverage", v)} icon={Percent} />
           </div>
         </Card>
 
@@ -370,6 +379,26 @@ const FuturesCalculator = () => {
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<'strategy' | 'tax' | 'futures'>('strategy');
+
+  const [strategyState, setStrategyState] = useState<IStrategyState>({
+    initial: "1000",
+    oldPrice: "50",
+    currentPrice: "40"
+  });
+
+  const [taxState, setTaxState] = useState<ITaxState>({
+    initial: "10000",
+    buyPrice: "100",
+    currentPrice: "150",
+    targetProfit: "5000"
+  });
+
+  const [futuresState, setFuturesState] = useState<IFuturesState>({
+    initial: "10000",
+    price: "100",
+    leverage: "10",
+    position: "long"
+  });
 
   return (
     <div className="min-h-screen bg-[#020617] text-slate-100 font-sans selection:bg-blue-500/30">
@@ -434,9 +463,9 @@ export default function App() {
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.3 }}
             >
-              {activeTab === 'strategy' && <MultipleStrategy />}
-              {activeTab === 'tax' && <TaxCalculator />}
-              {activeTab === 'futures' && <FuturesCalculator />}
+              {activeTab === 'strategy' && <MultipleStrategy state={strategyState} setState={setStrategyState} />}
+              {activeTab === 'tax' && <TaxCalculator state={taxState} setState={setTaxState} />}
+              {activeTab === 'futures' && <FuturesCalculator state={futuresState} setState={setFuturesState} />}
             </motion.div>
           </AnimatePresence>
         </main>
